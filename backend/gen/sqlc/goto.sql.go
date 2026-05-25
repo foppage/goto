@@ -20,11 +20,11 @@ func (q *Queries) DeleteGoto(ctx context.Context, id int64) error {
 
 const getGoto = `-- name: GetGoto :one
 SELECT id, name, dest FROM Goto
-WHERE id = ?
+WHERE name = ?
 `
 
-func (q *Queries) GetGoto(ctx context.Context, id int64) (Goto, error) {
-	row := q.db.QueryRowContext(ctx, getGoto, id)
+func (q *Queries) GetGoto(ctx context.Context, name string) (Goto, error) {
+	row := q.db.QueryRowContext(ctx, getGoto, name)
 	var i Goto
 	err := row.Scan(&i.ID, &i.Name, &i.Dest)
 	return i, err
@@ -69,8 +69,8 @@ RETURNING id, name, dest
 `
 
 type UpsertGotoParams struct {
-	Name string
-	Dest string
+	Name string `json:"name"`
+	Dest string `json:"dest"`
 }
 
 func (q *Queries) UpsertGoto(ctx context.Context, arg UpsertGotoParams) (Goto, error) {

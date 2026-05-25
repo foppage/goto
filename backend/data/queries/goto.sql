@@ -3,7 +3,7 @@ SELECT * FROM Goto;
 
 -- name: GetGoto :one
 SELECT * FROM Goto
-WHERE id = ?;
+WHERE name = ?;
 
 -- name: UpsertGoto :one
 INSERT INTO Goto (

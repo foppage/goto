@@ -5,7 +5,7 @@
 package sqlc
 
 type Goto struct {
-	ID   int64
-	Name string
-	Dest string
+	ID   int64  `json:"id"`
+	Name string `json:"name"`
+	Dest string `json:"dest"`
 }
