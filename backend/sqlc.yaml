@@ -5,4 +5,4 @@ sql:
     schema: "data/migrations"
     gen:
       go:
-        out: "gen/db"
+        out: "gen/sqlc"

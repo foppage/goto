@@ -1,9 +1,9 @@
 -- name: ListGotos :many
-SELECT * FROM Goto
-WHERE id = ?;
+SELECT * FROM Goto;
 
 -- name: GetGoto :one
-SELECT * FROM Goto;
+SELECT * FROM Goto
+WHERE id = ?;
 
 -- name: UpsertGoto :one
 INSERT INTO Goto (

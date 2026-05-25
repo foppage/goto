@@ -3,7 +3,7 @@
 //   sqlc v1.31.1
 // source: goto.sql
 
-package db
+package sqlc
 
 import (
 	"context"
@@ -20,10 +20,11 @@ func (q *Queries) DeleteGoto(ctx context.Context, id int64) error {
 
 const getGoto = `-- name: GetGoto :one
 SELECT id, name, dest FROM Goto
+WHERE id = ?
 `
 
-func (q *Queries) GetGoto(ctx context.Context) (Goto, error) {
-	row := q.db.QueryRowContext(ctx, getGoto)
+func (q *Queries) GetGoto(ctx context.Context, id int64) (Goto, error) {
+	row := q.db.QueryRowContext(ctx, getGoto, id)
 	var i Goto
 	err := row.Scan(&i.ID, &i.Name, &i.Dest)
 	return i, err
@@ -31,11 +32,10 @@ func (q *Queries) GetGoto(ctx context.Context) (Goto, error) {
 
 const listGotos = `-- name: ListGotos :many
 SELECT id, name, dest FROM Goto
-WHERE id = ?
 `
 
-func (q *Queries) ListGotos(ctx context.Context, id int64) ([]Goto, error) {
-	rows, err := q.db.QueryContext(ctx, listGotos, id)
+func (q *Queries) ListGotos(ctx context.Context) ([]Goto, error) {
+	rows, err := q.db.QueryContext(ctx, listGotos)
 	if err != nil {
 		return nil, err
 	}
