@@ -14,6 +14,7 @@ func CreateServer(queries *sqlc.Queries) {
 	server.GET("/destinations", controllers.ListDestinations(queries))
 	server.POST("/destinations", controllers.CreateDestination(queries))
 	server.DELETE("/destinations/:id", controllers.DeleteDestination(queries))
+	server.PUT("/destinations/:id", controllers.UpdateDestination(queries))
 
 	err := server.Run()
 	if err != nil {
