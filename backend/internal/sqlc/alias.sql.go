@@ -37,6 +37,34 @@ func (q *Queries) DeleteAliasByID(ctx context.Context, id int64) error {
 	return err
 }
 
+const getAliasWithDestinationByName = `-- name: GetAliasWithDestinationByName :one
+SELECT a.id, a.name, d.id AS destination_id, d.name AS destination_name, d.url AS destination_url
+FROM alias a
+JOIN destination d ON a.destination_id = d.id
+WHERE a.name = ?
+`
+
+type GetAliasWithDestinationByNameRow struct {
+	ID              int64  `json:"id"`
+	Name            string `json:"name"`
+	DestinationID   int64  `json:"destination_id"`
+	DestinationName string `json:"destination_name"`
+	DestinationUrl  string `json:"destination_url"`
+}
+
+func (q *Queries) GetAliasWithDestinationByName(ctx context.Context, name string) (GetAliasWithDestinationByNameRow, error) {
+	row := q.db.QueryRowContext(ctx, getAliasWithDestinationByName, name)
+	var i GetAliasWithDestinationByNameRow
+	err := row.Scan(
+		&i.ID,
+		&i.Name,
+		&i.DestinationID,
+		&i.DestinationName,
+		&i.DestinationUrl,
+	)
+	return i, err
+}
+
 const listAliases = `-- name: ListAliases :many
 SELECT id, name, destination_id FROM alias
 `

@@ -66,11 +66,6 @@ func DeleteDestination(queries *sqlc.Queries) gin.HandlerFunc {
 func UpdateDestination(queries *sqlc.Queries) gin.HandlerFunc {
 	return func(c *gin.Context) {
 
-		type putParamStruct struct {
-			Name string `json:"name"`
-			Url  string `json:"url"`
-		}
-
 		id := c.Param("id")
 
 		idInt, err := strconv.Atoi(id)
@@ -81,12 +76,14 @@ func UpdateDestination(queries *sqlc.Queries) gin.HandlerFunc {
 			return
 		}
 
-		var params putParamStruct
+		var params sqlc.UpdateDestinationByIDParams
 		err = c.ShouldBindJSON(&params)
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
+
+		params.ID = int64(idInt)
 
 		destination, err := queries.UpdateDestinationByID(c.Request.Context(), sqlc.UpdateDestinationByIDParams{
 			ID:   int64(idInt),

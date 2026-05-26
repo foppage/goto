@@ -12,7 +12,7 @@ import (
 const createDestination = `-- name: CreateDestination :one
 INSERT INTO destination (name, url)
 VALUES (?, ?)
-    RETURNING id, name, url
+RETURNING id, name, url
 `
 
 type CreateDestinationParams struct {
@@ -80,7 +80,7 @@ const updateDestinationByID = `-- name: UpdateDestinationByID :one
 UPDATE destination
 SET name = ?, url = ?
 WHERE id = ?
-    RETURNING id, name, url
+RETURNING id, name, url
 `
 
 type UpdateDestinationByIDParams struct {

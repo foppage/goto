@@ -4,7 +4,7 @@ SELECT * FROM destination;
 -- name: CreateDestination :one
 INSERT INTO destination (name, url)
 VALUES (?, ?)
-    RETURNING *;
+RETURNING *;
 
 -- name: DeleteDestinationByID :exec
 DELETE FROM destination
@@ -18,4 +18,4 @@ WHERE id = ?;
 UPDATE destination
 SET name = ?, url = ?
 WHERE id = ?
-    RETURNING *;
+RETURNING *;
