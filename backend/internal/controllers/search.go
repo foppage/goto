@@ -13,7 +13,7 @@ func ResolveQuery(queries *sqlc.Queries) gin.HandlerFunc {
 		alias, err := queries.GetAliasWithDestinationByName(ctx.Request.Context(), queryParam)
 		if err != nil {
 			// can't find it, head back to dashboard
-			ctx.Redirect(http.StatusMovedPermanently, "/")
+			ctx.Redirect(http.StatusTemporaryRedirect, "/")
 			return
 		}
 		ctx.Redirect(http.StatusFound, alias.DestinationUrl)

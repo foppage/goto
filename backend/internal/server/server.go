@@ -2,6 +2,7 @@ package server
 
 import (
 	"log"
+	"net/http"
 
 	"git.june.pet/june/goto/internal/controllers"
 	"git.june.pet/june/goto/internal/sqlc"
@@ -9,21 +10,30 @@ import (
 )
 
 func CreateServer(queries *sqlc.Queries) {
-	server := gin.Default()
+	router := gin.Default()
 
-	server.GET("/destinations", controllers.ListDestinations(queries))
-	server.POST("/destinations", controllers.CreateDestination(queries))
-	server.DELETE("/destinations/:id", controllers.DeleteDestination(queries))
-	server.PUT("/destinations/:id", controllers.UpdateDestination(queries))
+	router.GET("/", func(ctx *gin.Context) {
+		ctx.File("./dist/index.html")
+	})
+	router.StaticFile("/favicon.svg", "./dist/favicon.svg")
+	router.Static("/assets", "./dist/assets")
 
-	server.GET("/aliases", controllers.ListAliases(queries))
-	server.POST("/aliases", controllers.CreateAlias(queries))
-	server.DELETE("/aliases/:id", controllers.DeleteAlias(queries))
-	server.PUT("/aliases/:id", controllers.UpdateAlias(queries))
+	api := router.Group("/api")
+	{
+		api.GET("/destinations", controllers.ListDestinations(queries))
+		api.POST("/destinations", controllers.CreateDestination(queries))
+		api.DELETE("/destinations/:id", controllers.DeleteDestination(queries))
+		api.PUT("/destinations/:id", controllers.UpdateDestination(queries))
 
-	server.GET("/s", controllers.ResolveQuery(queries))
+		api.GET("/aliases", controllers.ListAliases(queries))
+		api.POST("/aliases", controllers.CreateAlias(queries))
+		api.DELETE("/aliases/:id", controllers.DeleteAlias(queries))
+		api.PUT("/aliases/:id", controllers.UpdateAlias(queries))
+	}
 
-	err := server.Run()
+	router.GET("/s", controllers.ResolveQuery(queries))
+
+	err := http.ListenAndServe(":6020", router)
 	if err != nil {
 		log.Panic(err)
 	}

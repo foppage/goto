@@ -12,7 +12,7 @@ func main() {
 
 	conn, queries, err := db.CreateDB()
 	if err != nil {
-		log.Panic(err)
+		log.Fatal(err)
 	}
 	defer conn.Close()
 

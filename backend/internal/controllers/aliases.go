@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"log"
 	"net/http"
 	"strconv"
 
@@ -12,7 +13,8 @@ func ListAliases(queries *sqlc.Queries) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		aliases, err := queries.ListAliases(ctx.Request.Context())
 		if err != nil {
-			ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			log.Printf("ListAliases: %v", err)
+			ctx.JSON(http.StatusInternalServerError, gin.H{"error": "internal server error"})
 			return
 		}
 
@@ -36,7 +38,8 @@ func CreateAlias(queries *sqlc.Queries) gin.HandlerFunc {
 
 		alias, err := queries.CreateAlias(ctx.Request.Context(), params)
 		if err != nil {
-			ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			log.Printf("CreateAlias: %v", err)
+			ctx.JSON(http.StatusInternalServerError, gin.H{"error": "internal server error"})
 			return
 		}
 		ctx.JSON(http.StatusOK, alias)
@@ -48,13 +51,14 @@ func DeleteAlias(queries *sqlc.Queries) gin.HandlerFunc {
 		id := ctx.Param("id")
 		idInt, err := strconv.Atoi(id)
 		if err != nil {
-			ctx.JSON(400, gin.H{"error": "id must be integer"})
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": "id must be integer"})
 			return
 		}
 
 		err = queries.DeleteAliasByID(ctx.Request.Context(), int64(idInt))
 		if err != nil {
-			ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			log.Printf("DeleteAlias: %v", err)
+			ctx.JSON(http.StatusInternalServerError, gin.H{"error": "internal server error"})
 			return
 		}
 		ctx.Status(http.StatusNoContent)
@@ -66,7 +70,7 @@ func UpdateAlias(queries *sqlc.Queries) gin.HandlerFunc {
 		id := ctx.Param("id")
 		idInt, err := strconv.Atoi(id)
 		if err != nil {
-			ctx.JSON(400, gin.H{"error": "id must be integer"})
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": "id must be integer"})
 			return
 		}
 
@@ -82,7 +86,8 @@ func UpdateAlias(queries *sqlc.Queries) gin.HandlerFunc {
 
 		alias, err := queries.UpdateAliasByID(ctx.Request.Context(), params)
 		if err != nil {
-			ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			log.Printf("UpdateAlias: %v", err)
+			ctx.JSON(http.StatusInternalServerError, gin.H{"error": "internal server error"})
 			return
 		}
 		ctx.JSON(http.StatusOK, alias)

@@ -31,39 +31,39 @@ async function request<T>(url: string, options?: RequestInit): Promise<T> {
 export const api = {
   // Destinations
   listDestinations: () =>
-    request<Destination[]>("/destinations"),
+    request<Destination[]>("/api/destinations"),
 
   createDestination: (payload: CreateDestinationPayload) =>
-    request<Destination>("/destinations", {
+    request<Destination>("/api/destinations", {
       method: "POST",
       body: JSON.stringify(payload),
     }),
 
   updateDestination: (id: number, payload: UpdateDestinationPayload) =>
-    request<Destination>(`/destinations/${id}`, {
+    request<Destination>(`/api/destinations/${id}`, {
       method: "PUT",
       body: JSON.stringify(payload),
     }),
 
   deleteDestination: (id: number) =>
-    request<void>(`/destinations/${id}`, { method: "DELETE" }),
+    request<void>(`/api/destinations/${id}`, { method: "DELETE" }),
 
   // Aliases
   listAliases: () =>
-    request<Alias[]>("/aliases"),
+    request<Alias[]>("/api/aliases"),
 
   createAlias: (payload: CreateAliasPayload) =>
-    request<Alias>("/aliases", {
+    request<Alias>("/api/aliases", {
       method: "POST",
       body: JSON.stringify(payload),
     }),
 
   updateAlias: (id: number, payload: UpdateAliasPayload) =>
-    request<Alias>(`/aliases/${id}`, {
+    request<Alias>(`/api/aliases/${id}`, {
       method: "PUT",
       body: JSON.stringify(payload),
     }),
 
   deleteAlias: (id: number) =>
-    request<void>(`/aliases/${id}`, { method: "DELETE" }),
+    request<void>(`/api/aliases/${id}`, { method: "DELETE" }),
 }
