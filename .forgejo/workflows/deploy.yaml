@@ -21,4 +21,5 @@ jobs:
       - name: Run Docker Compose
         env:
           SERVER_IP: ${{ vars.SERVER_IP }}
-        run: ssh -o "StrictHostKeyChecking no" -i ./private.key root@$SERVER_IP "cd ~/goto && git pull && docker compose up -d --build"
+          USER: ${{ vars.USER }}
+        run: ssh -o "StrictHostKeyChecking no" -i ./private.key $USER@$SERVER_IP "cd ~/goto && git pull && docker compose up -d --build"
