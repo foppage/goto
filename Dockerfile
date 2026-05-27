@@ -19,5 +19,5 @@ WORKDIR /app
 COPY --from=site-builder /app/dist ./dist
 COPY --from=backend-builder /app/main .
 RUN mkdir "db"
-EXPOSE 8080
+EXPOSE 6020
 CMD ["./main"]
