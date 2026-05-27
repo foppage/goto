@@ -7,11 +7,15 @@ on:
 
 jobs:
   build-and-push:
-    runs-on: docker
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Install Docker CLI
+        run: |
+          which docker || curl -fsSL https://get.docker.com | sh
 
       - name: Login to Forgejo Container Registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login git.june.pet -u "${{ github.actor }}" --password-stdin
@@ -29,6 +33,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Install Docker CLI
+        run: |
+          which docker || curl -fsSL https://get.docker.com | sh
 
       - name: Add SSH private key
         env:
