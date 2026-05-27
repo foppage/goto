@@ -9,7 +9,7 @@ CREATE TABLE alias(
                             "id" INTEGER PRIMARY KEY AUTOINCREMENT,
                             "name" VARCHAR(255) UNIQUE NOT NULL,
                             "destination_id" INTEGER NOT NULL,
-                            FOREIGN KEY (destination_id) REFERENCES destination(id)
+                            FOREIGN KEY (destination_id) REFERENCES destination(id) ON DELETE CASCADE
 );
 
 -- +goose Down

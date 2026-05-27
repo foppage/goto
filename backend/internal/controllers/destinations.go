@@ -15,6 +15,12 @@ func ListDestinations(queries *sqlc.Queries) gin.HandlerFunc {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 			return
 		}
+
+		if len(destinations) == 0 {
+			c.JSON(http.StatusOK, []sqlc.Destination{})
+			return
+		}
+
 		c.JSON(http.StatusOK, destinations)
 	}
 }

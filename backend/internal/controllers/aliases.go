@@ -15,6 +15,12 @@ func ListAliases(queries *sqlc.Queries) gin.HandlerFunc {
 			ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 			return
 		}
+
+		if len(aliases) == 0 {
+			ctx.JSON(http.StatusOK, []sqlc.Alias{})
+			return
+		}
+
 		ctx.JSON(http.StatusOK, aliases)
 	}
 }

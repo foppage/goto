@@ -21,6 +21,11 @@ func CreateDB() (*sql.DB, *sqlc.Queries, error) {
 
 	}
 
+	if _, err := dbConn.Exec("PRAGMA foreign_keys = ON"); err != nil {
+		log.Panic(err)
+		return nil, nil, err
+	}
+
 	goose.SetBaseFS(embedMigrations)
 	if err := goose.SetDialect("sqlite3"); err != nil {
 		log.Panic(err)
