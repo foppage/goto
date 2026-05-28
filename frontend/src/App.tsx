@@ -75,7 +75,7 @@ export default function App() {
   }
 
   return (
-    <div className="mx-auto max-w-2xl p-6 space-y-6 pt-[18vh] md:pt-[22vh]">
+    <div className="mx-auto max-w-2xl p-6 space-y-6 pt-[9vh] md:pt-[11vh]">
       <Toaster />
 
       <AddDestinationCard
