@@ -1,31 +1,43 @@
-export interface Destination {
-  id: number
-  name: string
-  url: string
-}
+import { z } from "zod"
 
-export interface Alias {
-  id: number
-  name: string
-  destination_id: number
-}
+export const DestinationSchema = z.object({
+  id: z.number().int(),
+  name: z.string().min(1, "Name is required"),
+  url: z.string().url("Invalid URL"),
+})
 
-export interface CreateDestinationPayload {
-  name: string
-  url: string
-}
+export const AliasSchema = z.object({
+  id: z.number().int(),
+  name: z.string().min(1, "Name is required"),
+  destination_id: z.number().int(),
+})
 
-export interface UpdateDestinationPayload {
-  name: string
-  url: string
-}
+export const CreateDestinationPayloadSchema = z.object({
+  name: z.string().min(1, "Name is required"),
+  url: z.string().url("Invalid URL"),
+})
 
-export interface CreateAliasPayload {
-  name: string
-  destination_id: number
-}
+export const UpdateDestinationPayloadSchema = z.object({
+  name: z.string().min(1, "Name is required"),
+  url: z.string().url("Invalid URL"),
+})
 
-export interface UpdateAliasPayload {
-  name: string
-  destination_id: number
-}
+export const CreateAliasPayloadSchema = z.object({
+  name: z.string().min(1, "Name is required"),
+  destination_id: z.number().int(),
+})
+
+export const UpdateAliasPayloadSchema = z.object({
+  name: z.string().min(1, "Name is required"),
+  destination_id: z.number().int(),
+})
+
+export const DestinationArraySchema = z.array(DestinationSchema)
+export const AliasArraySchema = z.array(AliasSchema)
+
+export type Destination = z.infer<typeof DestinationSchema>
+export type Alias = z.infer<typeof AliasSchema>
+export type CreateDestinationPayload = z.infer<typeof CreateDestinationPayloadSchema>
+export type UpdateDestinationPayload = z.infer<typeof UpdateDestinationPayloadSchema>
+export type CreateAliasPayload = z.infer<typeof CreateAliasPayloadSchema>
+export type UpdateAliasPayload = z.infer<typeof UpdateAliasPayloadSchema>
