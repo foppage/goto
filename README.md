@@ -4,7 +4,7 @@ Add this as a search provider to your browser for better shortcuts.
 
 `http(s)://<YOUR_URL>/s?q=%s`
 
-Built using Go, TypeScript and Docker.
+Built using Go, SQL, TypeScript and Docker.
 
 The backend uses the Gin web framework, and the frontend uses Vite + React.
 
