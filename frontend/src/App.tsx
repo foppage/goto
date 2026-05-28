@@ -67,7 +67,7 @@ export default function App() {
   const [name, setName] = useState("")
   const [url, setUrl] = useState("")
   const [search, setSearch] = useState("")
-  const [sort, setSort] = useState<"name" | "id-asc" | "id-desc">("name")
+  const [sort, setSort] = useState<"name" | "id-asc" | "id-desc">("id-asc")
 
   function handleCreateDest() {
     if (!name.trim() || !url.trim() || createDestMutation.isPending) return
